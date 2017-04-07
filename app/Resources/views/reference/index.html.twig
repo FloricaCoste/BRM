@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>References list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Referenceid</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Journaltitle</th>
+                <th>Typeofmedium</th>
+                <th>Dateofpublication</th>
+                <th>Dateofcitation</th>
+                <th>Volumnumber</th>
+                <th>Isbn</th>
+                <th>Location</th>
+                <th>Category</th>
+                <th>Availability</th>
+                <th>Textsummary</th>
+                <th>Publicreference</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reference in references %}
+            <tr>
+                <td><a href="{{ path('reference_show', { 'id': reference.id }) }}">{{ reference.id }}</a></td>
+                <td>{{ reference.referenceID }}</td>
+                <td>{{ reference.author }}</td>
+                <td>{{ reference.title }}</td>
+                <td>{{ reference.journalTitle }}</td>
+                <td>{{ reference.typeOfMedium }}</td>
+                <td>{{ reference.dateOfPublication }}</td>
+                <td>{{ reference.dateOfCitation }}</td>
+                <td>{{ reference.volumNumber }}</td>
+                <td>{{ reference.iSBN }}</td>
+                <td>{{ reference.location }}</td>
+                <td>{{ reference.category }}</td>
+                <td>{{ reference.availability }}</td>
+                <td>{{ reference.textSummary }}</td>
+                <td>{{ reference.publicReference }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('reference_show', { 'id': reference.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('reference_edit', { 'id': reference.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('reference_new') }}">Create a new reference</a>
+        </li>
+    </ul>
+{% endblock %}

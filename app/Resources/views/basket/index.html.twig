@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block pageTitle %}List of Bibliography{% endblock %}
+
+{% block body %}
+
+    {% set basket_bibliography = app.session.get('basket') %}
+
+    {{ dump(app.session.get('basket')) }}
+
+    <h1>List of Bibliography in basket</h1>
+
+    {% if basket_bibliography is null %}
+        <p>
+            You have no Bibliography in your basket!!!
+        </p>
+    {% else %}
+        <ul>
+            {% for bibliography in basket_bibliography %}
+                <li>
+                    <hr>
+                    id = {{ bibliography.bibID }}
+                    <br>
+                    author = {{ bibliography.author }}
+                    <br>
+                    year = {{ bibliography.yearPub }}
+                    <br>
+                    title = {{ bibliography.title }}
+                    <br>
+                    chapter = {{ bibliography.chapter }}
+                    <br>
+                    editor = {{ bibliography.editor }}
+                    <br>
+                    edition = {{ bibliography.edition }}
+                    <br>
+                    placePub = {{ bibliography.placePub }}
+                    <br>
+                    Publisher = {{ bibliography.publisher }}
+                    <br>
+
+                    <a href="{{ path('bibliography_basket_delete', { 'id': bibliography.id }) }}">(remove)</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    <p>
+        <a href="{{ path('bibliography_basket_clear') }}">Clear all items in basket</a>
+    </p>
+
+{% endblock %}
