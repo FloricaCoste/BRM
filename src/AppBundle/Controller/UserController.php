@@ -2,22 +2,17 @@
 
 namespace AppBundle\Controller;
 
-
-use AppBundle\Entity\User;
+use AppBundle\Entity\user;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
-
-use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
  *
  * @Route("user")
  */
-class UserController extends Controller
+class userController extends Controller
 {
     /**
      * Lists all user entities.
@@ -27,22 +22,14 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-        $session = new Session();
-        if ($session->has('user')){
-            $templateName = '/admin/index';
-            return $this->render($templateName . '.html.twig', []);
-        }
+        $em = $this->getDoctrine()->getManager();
 
-        // if get here, not logged in,
-        // empty flash bag and create flash login first message then redirect
-        $session->getFlashBag()->clear(); // avoids seeing message twice ...
-        $this->addFlash(
-            'error',
-            'please login before accessing admin'
-        );
-        return $this->redirectToRoute('login');
+        $users = $em->getRepository('AppBundle:user')->findAll();
+
+        return $this->render('user/index.html.twig', array(
+            'users' => $users,
+        ));
     }
-
 
     /**
      * Creates a new user entity.
@@ -53,7 +40,7 @@ class UserController extends Controller
     public function newAction(Request $request)
     {
         $user = new User();
-        $form = $this->createForm('AppBundle\Form\UserType', $user);
+        $form = $this->createForm('AppBundle\Form\userType', $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -76,7 +63,7 @@ class UserController extends Controller
      * @Route("/{id}", name="user_show")
      * @Method("GET")
      */
-    public function showAction(User $user)
+    public function showAction(user $user)
     {
         $deleteForm = $this->createDeleteForm($user);
 
@@ -92,10 +79,10 @@ class UserController extends Controller
      * @Route("/{id}/edit", name="user_edit")
      * @Method({"GET", "POST"})
      */
-    public function editAction(Request $request, User $user)
+    public function editAction(Request $request, user $user)
     {
         $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm('AppBundle\Form\UserType', $user);
+        $editForm = $this->createForm('AppBundle\Form\userType', $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -117,7 +104,7 @@ class UserController extends Controller
      * @Route("/{id}", name="user_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, User $user)
+    public function deleteAction(Request $request, user $user)
     {
         $form = $this->createDeleteForm($user);
         $form->handleRequest($request);
@@ -134,11 +121,11 @@ class UserController extends Controller
     /**
      * Creates a form to delete a user entity.
      *
-     * @param User $user The user entity
+     * @param user $user The user entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm(User $user)
+    private function createDeleteForm(user $user)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('user_delete', array('id' => $user->getId())))
@@ -146,5 +133,4 @@ class UserController extends Controller
             ->getForm()
         ;
     }
-
 }

@@ -20,45 +20,16 @@ class SecurityController extends Controller
      */
     public function loginAction(Request $request)
     {
-        $session = new Session();
-
-        $user = new User();
-        $form = $this->createForm('AppBundle\Form\UserType', $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if($this->canAuthenticate($user)) {
-                // store user in session
-                $session->set('user', $user);
-
-                // redirect to ADMIN home page
-                return $this->redirectToRoute('admin_index');
-            } else {
-
-
-                $this->addFlash(
-                    'error',
-                    'bad username or password, please try again'
-                );
-
-                // create new form with user that has no password - password should not be 'sticky'
-                $user->setPassword('');
-                $form = $this->createForm('AppBundle\Form\UserType', $user);
-
-                // fall through to login form at end of this method
-            }
-        }
-
+        $authenticationUtils = $this->get('security.authentication_utils'); // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError(); // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+// Twig stuff
+        $templateName = 'security/login';
         $argsArray = [
-            'user' => $user,
-            'form' => $form->createView(),
-        ];
-
-        $templateName = 'login';
-
+            'last_username' => $lastUsername,
+            'error' => $error,];
         return $this->render($templateName . '.html.twig', $argsArray);
     }
-
 
     private function createrLoginForm(User $user)
     {

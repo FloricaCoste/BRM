@@ -3,14 +3,11 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
- * User
- *
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- */
-class User
+ * @ORM\Table(name="app_users")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository") */
+class user implements UserInterface, \Serializable
 {
     /**
      * @var int
@@ -45,23 +42,9 @@ class User
     /**
      * @var bool
      *
-     * @ORM\Column(name="isActiv", type="boolean")
+     * @ORM\Column(name="isActive", type="boolean")
      */
-    private $isActiv;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="userID", type="string", length=255)
-     */
-    private $userID;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="roleUser", type="string", length=255)
-     */
-    private $roleUser;
+    private $isActive;
 
 
     /**
@@ -147,84 +130,35 @@ class User
     }
 
     /**
-     * Set isActiv
+     * Set isActive
      *
-     * @param boolean $isActiv
+     * @param boolean $isActive
      *
      * @return User
      */
-    public function setIsActiv($isActiv)
+    public function setIsActive($isActive)
     {
-        $this->isActiv = $isActiv;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
     /**
-     * Get isActiv
+     * Get isActive
      *
-     * @return bool
+     * @return boolean
      */
-    public function getIsActiv()
+    public function getIsActive()
     {
-        return $this->isActiv;
+        return $this->isActive;
     }
-
-    /**
-     * Set userID
-     *
-     * @param string $userID
-     *
-     * @return User
-     */
-    public function setUserID($userID)
-    {
-        $this->userID = $userID;
-
-        return $this;
-    }
-
-    /**
-     * Get userID
-     *
-     * @return string
-     */
-    public function getUserID()
-    {
-        return $this->userID;
-    }
-
-    /**
-     * Set roleUser
-     *
-     * @param string $roleUser
-     *
-     * @return User
-     */
-    public function setRoleUser($roleUser)
-    {
-        $this->roleUser = $roleUser;
-
-        return $this;
-    }
-
-    /**
-     * Get roleUser
-     *
-     * @return string
-     */
-    public function getRoleUser()
-    {
-        return $this->roleUser;
-    }
-
 
     //add extra function
     public function getSalt()
     {
     }
 
-    public function getRoles()
+    public function getRolesUser()
     {
         return array('ROLE_USER');
     }
@@ -250,23 +184,51 @@ class User
 
     public function isEnabled()
     {
-        return $this->isActiv;
+        return $this->isActive;
     }
 
 // serialize and unserialize must be updated - see below
+
+    /** @see \Serializable::serialize() */
     public function serialize()
     {
-        return serialize(array(
-            // ...
-            $this->isActiv
+        return serialize(array( $this->id,
+            $this->username, $this->password,
+            // see section on salt below // $this->salt,
         ));
     }
+
+    /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
-            // ...
-            $this->isActiv
-            ) = unserialize($serialized);
+        list ( $this->id,
+            $this->username, $this->password,
+// see section on salt below // $this->salt
+            ) = unserialize($serialized); }
+
+    /**
+     * @ORM\Column(type="json_array")
+     */
+    private $roles = [];
+
+
+    public function getRoles()
+    {
+        $roles = $this->roles;
+        return $roles;
+    }
+
+    /**
+     * Set roles
+     *
+     * @param array $roles
+     *
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+        return $this;
     }
 
 }
