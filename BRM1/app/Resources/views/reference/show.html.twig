@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Reference</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reference.id }}</td>
+            </tr>
+            <tr>
+                <th>Referenceid</th>
+                <td>{{ reference.referenceID }}</td>
+            </tr>
+            <tr>
+                <th>Author</th>
+                <td>{{ reference.author }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ reference.title }}</td>
+            </tr>
+            <tr>
+                <th>Journaltitle</th>
+                <td>{{ reference.journalTitle }}</td>
+            </tr>
+            <tr>
+                <th>Typeofmedium</th>
+                <td>{{ reference.typeOfMedium }}</td>
+            </tr>
+            <tr>
+                <th>Dateofpublication</th>
+                <td>{{ reference.dateOfPublication }}</td>
+            </tr>
+            <tr>
+                <th>Dateofcitation</th>
+                <td>{{ reference.dateOfCitation }}</td>
+            </tr>
+            <tr>
+                <th>Volumnumber</th>
+                <td>{{ reference.volumNumber }}</td>
+            </tr>
+            <tr>
+                <th>Isbn</th>
+                <td>{{ reference.iSBN }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ reference.location }}</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ reference.category }}</td>
+            </tr>
+            <tr>
+                <th>Availability</th>
+                <td>{{ reference.availability }}</td>
+            </tr>
+            <tr>
+                <th>Textsummary</th>
+                <td>{{ reference.textSummary }}</td>
+            </tr>
+            <tr>
+                <th>Publicreference</th>
+                <td>{{ reference.publicReference }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('reference_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('reference_edit', { 'id': reference.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -105,13 +105,21 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
-        // admin_index
-        if (rtrim($pathinfo, '/') === '/admin') {
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'admin_index');
+        if (0 === strpos($pathinfo, '/admin')) {
+            // admin_home
+            if (rtrim($pathinfo, '/') === '/admin') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'admin_home');
+                }
+
+                return array (  '_controller' => 'AppBundle\\Controller\\AdminController::indexAction',  '_route' => 'admin_home',);
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\AdminController::indexAction',  '_route' => 'admin_index',);
+            // admin_codes
+            if ($pathinfo === '/admin/codes') {
+                return array (  '_controller' => 'AppBundle\\Controller\\AdminController::codesAction',  '_route' => 'admin_codes',);
+            }
+
         }
 
         if (0 === strpos($pathinfo, '/basket')) {
@@ -139,6 +147,11 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'bibliography_basket_delete')), array (  '_controller' => 'AppBundle\\Controller\\BibliographyBasketController::deleteAction',));
             }
 
+            // bibliography_basket_pdf
+            if ($pathinfo === '/basket/pdf') {
+                return array (  '_controller' => 'AppBundle\\Controller\\BibliographyBasketController::pdfAction',  '_route' => 'bibliography_basket_pdf',);
+            }
+
         }
 
         // homepage
@@ -160,16 +173,36 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             return array (  '_controller' => 'AppBundle\\Controller\\DefaultController::adminAction',  '_route' => 'app_default_admin',);
         }
 
-        // login
-        if ($pathinfo === '/login') {
-            if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
-                $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                goto not_login;
+        // app_demo_pdf
+        if ($pathinfo === '/pdf') {
+            return array (  '_controller' => 'AppBundle\\Controller\\DemoController::pdfAction',  '_route' => 'app_demo_pdf',);
+        }
+
+        if (0 === strpos($pathinfo, '/l')) {
+            // lecture_index
+            if (rtrim($pathinfo, '/') === '/lecture') {
+                if (substr($pathinfo, -1) !== '/') {
+                    return $this->redirect($pathinfo.'/', 'lecture_index');
+                }
+
+                return array (  '_controller' => 'AppBundle\\Controller\\LectureController::indexAction',  '_route' => 'lecture_index',);
             }
 
-            return array (  '_controller' => 'AppBundle\\Controller\\SecurityController::loginAction',  '_route' => 'login',);
+            // login
+            if ($pathinfo === '/login') {
+                return array (  '_controller' => 'AppBundle\\Controller\\SecurityController::loginAction',  '_route' => 'login',);
+            }
+
         }
-        not_login:
+
+        // student_index
+        if (rtrim($pathinfo, '/') === '/student') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'student_index');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\StudentController::indexAction',  '_route' => 'student_index',);
+        }
 
         if (0 === strpos($pathinfo, '/bibliography')) {
             // bibliography_index

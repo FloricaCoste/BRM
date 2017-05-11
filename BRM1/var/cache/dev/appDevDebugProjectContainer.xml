@@ -17,6 +17,7 @@
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="AppBundle">AppBundle\AppBundle</parameter>
       <parameter key="DoctrineMigrationsBundle">Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle</parameter>
+      <parameter key="KnpSnappyBundle">Knp\Bundle\SnappyBundle\KnpSnappyBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -68,6 +69,11 @@
         <parameter key="parent">null</parameter>
         <parameter key="path">C:\laragon\www\Poject2017\BRM1\vendor\doctrine\doctrine-migrations-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\MigrationsBundle</parameter>
+      </parameter>
+      <parameter key="KnpSnappyBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">C:/laragon/www/Poject2017/BRM1/vendor/knplabs/knp-snappy-bundle</parameter>
+        <parameter key="namespace">Knp\Bundle\SnappyBundle</parameter>
       </parameter>
       <parameter key="DebugBundle" type="collection">
         <parameter key="parent">null</parameter>
@@ -350,6 +356,19 @@
     <parameter key="doctrine_migrations.table_name">migration_versions</parameter>
     <parameter key="doctrine_migrations.name">Application Migrations</parameter>
     <parameter key="doctrine_migrations.organize_migrations">false</parameter>
+    <parameter key="knp_snappy.pdf.internal_generator.class">Knp\Snappy\Pdf</parameter>
+    <parameter key="knp_snappy.pdf.class">Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator</parameter>
+    <parameter key="knp_snappy.pdf.binary">C:\laragon\www\Poject2017\BRM1\app/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64</parameter>
+    <parameter key="knp_snappy.pdf.options" type="collection">
+      <parameter key="viewport-size">‘1024x768’</parameter>
+      <parameter key="page-size">A4</parameter>
+    </parameter>
+    <parameter key="knp_snappy.pdf.env" type="collection"/>
+    <parameter key="knp_snappy.image.internal_generator.class">Knp\Snappy\Image</parameter>
+    <parameter key="knp_snappy.image.class">Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator</parameter>
+    <parameter key="knp_snappy.image.binary">wkhtmltoimage</parameter>
+    <parameter key="knp_snappy.image.options" type="collection"/>
+    <parameter key="knp_snappy.image.env" type="collection"/>
     <parameter key="web_profiler.debug_toolbar.position">bottom</parameter>
     <parameter key="web_profiler.debug_toolbar.intercept_redirects">false</parameter>
     <parameter key="web_profiler.debug_toolbar.mode">2</parameter>
@@ -480,7 +499,7 @@
                 <tag name="cache.pool" clearer="cache.default_clearer"/>
                 <argument>pfpPr0uSH1</argument>
                 <argument>0</argument>
-                <argument>1m6+wWKtjFnswShHhtjDSI</argument>
+                <argument>VNx+nTI2-GdTzMAczdEQam</argument>
                 <argument>C:\laragon\www\Poject2017\BRM1\var\cache\dev/pools</argument>
                 <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
                 <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -663,7 +682,7 @@
       <tag name="cache.pool" clearer="cache.default_clearer"/>
       <argument>ca5VXy5bnW</argument>
       <argument>0</argument>
-      <argument>1m6+wWKtjFnswShHhtjDSI</argument>
+      <argument>VNx+nTI2-GdTzMAczdEQam</argument>
       <argument>C:\laragon\www\Poject2017\BRM1\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -673,7 +692,7 @@
       <tag name="cache.pool" clearer="cache.default_clearer"/>
       <argument>yaU8BKOQ0M</argument>
       <argument>0</argument>
-      <argument>1m6+wWKtjFnswShHhtjDSI</argument>
+      <argument>VNx+nTI2-GdTzMAczdEQam</argument>
       <argument>C:\laragon\www\Poject2017\BRM1\var\cache\dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -1677,7 +1696,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>58f7c4dc610780.81242411</argument>
+            <argument>591424db53d5c4.19935496</argument>
           </service>
         </argument>
       </argument>
@@ -1953,7 +1972,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.token_storage"/>
-            <argument>58f7c4dc610780.81242411</argument>
+            <argument>591424db53d5c4.19935496</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -2547,6 +2566,31 @@
       <argument type="service" id="security.token_storage" on-invalid="null"/>
       <argument type="service" id="security.authorization_checker" on-invalid="null"/>
     </service>
+    <service id="knp_snappy.pdf" class="Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator">
+      <tag name="monolog.logger" channel="snappy"/>
+      <argument type="service">
+        <service class="Knp\Snappy\Pdf" public="false">
+          <argument>C:\laragon\www\Poject2017\BRM1\app/../vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64</argument>
+          <argument type="collection">
+            <argument key="viewport-size">‘1024x768’</argument>
+            <argument key="page-size">A4</argument>
+          </argument>
+          <argument type="collection"/>
+        </service>
+      </argument>
+      <argument type="service" id="monolog.logger.snappy" on-invalid="null"/>
+    </service>
+    <service id="knp_snappy.image" class="Knp\Bundle\SnappyBundle\Snappy\LoggableGenerator">
+      <tag name="monolog.logger" channel="snappy"/>
+      <argument type="service">
+        <service class="Knp\Snappy\Image" public="false">
+          <argument>wkhtmltoimage</argument>
+          <argument type="collection"/>
+          <argument type="collection"/>
+        </service>
+      </argument>
+      <argument type="service" id="monolog.logger.snappy" on-invalid="null"/>
+    </service>
     <service id="data_collector.dump" class="Symfony\Component\HttpKernel\DataCollector\DumpDataCollector">
       <tag name="data_collector" id="dump" template="@Debug/Profiler/dump.html.twig" priority="240"/>
       <argument type="service" id="debug.stopwatch" on-invalid="ignore"/>
@@ -2782,6 +2826,18 @@
       <argument>doctrine</argument>
       <call method="pushProcessor">
         <argument type="service" id="debug.log_processor"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+    </service>
+    <service id="monolog.logger.snappy" class="Symfony\Bridge\Monolog\Logger">
+      <argument>snappy</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
       </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.main"/>

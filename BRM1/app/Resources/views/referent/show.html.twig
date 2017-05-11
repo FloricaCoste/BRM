@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Referent</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ referent.id }}</td>
+            </tr>
+            <tr>
+                <th>Userid</th>
+                <td>{{ referent.userID }}</td>
+            </tr>
+            <tr>
+                <th>Statusid</th>
+                <td>{{ referent.statusID }}</td>
+            </tr>
+            <tr>
+                <th>Dateedit</th>
+                <td>{{ referent.dateEdit }}</td>
+            </tr>
+            <tr>
+                <th>Reader</th>
+                <td>{{ referent.reader }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('referent_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('referent_edit', { 'id': referent.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

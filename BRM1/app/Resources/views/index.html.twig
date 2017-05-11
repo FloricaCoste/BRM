@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block pageTitle %}Home page{% endblock %}
+
+{% block body %}
+
+    <h1>Welcome to Bibliographic References Manager</h1>
+
+    <h3>Online System to organise and share useful academic references</h3>
+    <p>
+    REF = one entry in the bibliographic reference system
+        <br>
+    BIB = sequence of REF objects
+    </p>
+    <p>
+
+        -------
+        Use cases
+        role 'public' (no login required):
+        -------
+        <ul>
+        can see public REFs
+    </ul>
+    <ul>
+        can see list of tags
+    </ul>
+    <ul>
+        can see list of 'lecturer' published BIBs
+    </ul>
+    <ul>
+        can see list of proposed new tags
+    </ul>
+    <ul>
+        up/down vote list of proposed new tags (anonymous users votes count as 1 vote)
+    </ul>
+    <ul>
+        can propose new candidate tag
+    </ul>
+    <ul>
+        can submit suggestions for new REF (goes into 'pending' list for site moderators to accept / reject)
+        REF content + tags + text summary
+    </ul>
+    <ul>
+        can add REFs to 'shopping basket reference list' (a BIB)
+    </ul>
+    <ul>
+        can change ORDER of items in BIB
+    </ul>
+    <ul>
+        - can export BIB as a List of References Text File
+    </ul>
+
+    <p>
+        -------
+        Use cases
+        role 'student'
+        -------
+    </p>
+        - can view / search REFs in collections
+        +/- own collections
+        +/- shared collections from other users
+        +/- all public NURLs
+
+        can search by:
+        - matching one or more tags
+        - free text content search
+        - by date range (created / last edit)
+
+        - can CRUD personal tags
+
+        - can CRUD own REFs and collections and tags
+
+        - up/down vote list of proposed new tags (registered users votes count as 5 votes)
+
+        - can SAVE a BIB
+        - can CRUD BIBs
+        - can share a BIB with other users
+
+        - can update profile
+        EXTRA marks - upload of profile picture
+        - can make profile public / private (user name is always public for public NURLs)
+
+
+
+
+    <p>
+    -------
+    Use cases
+    role 'student'
+    -------
+
+    - can view / search REFs in collections
+    +/- own collections
+    +/- shared collections from other users
+    +/- all public NURLs
+
+    can search by:
+    - matching one or more tags
+    - free text content search
+    - by date range (created / last edit)
+
+    - can CRUD personal tags
+
+    - can CRUD own REFs and collections and tags
+
+    - up/down vote list of proposed new tags (registered users votes count as 5 votes)
+
+    - can SAVE a BIB
+    - can CRUD BIBs
+    - can share a BIB with other users
+
+    - can update profile
+    EXTRA marks - upload of profile picture
+    - can make profile public / private (user name is always public for public NURLs)
+ </p>
+ <p>
+    -------
+    Use cases
+    role 'lecturer'
+    -------
+    - all features of 'student'
+    - can publish a BIBS to be public, with a text title and text summary
+ </p>
+    <p>
+
+    -------
+    Use cases
+    role 'admin'
+    -------
+    - can CRUD student and lecturer and admin accounts
+    </p>
+
+
+
+{% endblock %}

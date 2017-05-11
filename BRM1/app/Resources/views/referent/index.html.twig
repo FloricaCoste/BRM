@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Referents list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>User ID</th>
+                <th>Status ID</th>
+
+                <th>Reader</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for referent in referents %}
+            <tr>
+                <td><a href="{{ path('referent_show', { 'id': referent.id }) }}">{{ referent.id }}</a></td>
+                <td>{{ referent.userID }}</td>
+                <td>{{ referent.statusID }}</td>
+
+                <td>{{ referent.reader }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('referent_show', { 'id': referent.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('referent_edit', { 'id': referent.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('referent_new') }}">Create a new referent</a>
+        </li>
+    </ul>
+{% endblock %}

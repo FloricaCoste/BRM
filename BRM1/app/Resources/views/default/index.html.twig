@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>Welcome to Bibliographic References Manager</h1>
+
+    <h3>Online System to organise and share useful academic references</h3>
+    <p>
+        REF = one entry in the bibliographic reference system
+        <br>
+        BIB = sequence of REF objects
+    </p>
+    <p>
+
+        -------
+        Use cases
+        role 'public' (no login required):
+        -------
+    <ul>
+        can see public REFs
+    </ul>
+    <ul>
+        can see list of tags
+    </ul>
+    <ul>
+        can see list of 'lecturer' published BIBs
+    </ul>
+    <ul>
+        can see list of proposed new tags
+    </ul>
+    <ul>
+        up/down vote list of proposed new tags (anonymous users votes count as 1 vote)
+    </ul>
+    <ul>
+        can propose new candidate tag
+    </ul>
+    <ul>
+        can submit suggestions for new REF (goes into 'pending' list for site moderators to accept / reject)
+        REF content + tags + text summary
+    </ul>
+    <ul>
+        can add REFs to 'shopping basket reference list' (a BIB)
+    </ul>
+    <ul>
+        can change ORDER of items in BIB
+    </ul>
+    <ul>
+        - can export BIB as a List of References Text File
+    </ul>
+
+    <p>
+        -------
+        Use cases
+        role 'student'
+        -------
+    </p>
+    - can view / search REFs in collections
+    +/- own collections
+    +/- shared collections from other users
+    +/- all public NURLs
+
+    can search by:
+    - matching one or more tags
+    - free text content search
+    - by date range (created / last edit)
+
+    - can CRUD personal tags
+
+    - can CRUD own REFs and collections and tags
+
+    - up/down vote list of proposed new tags (registered users votes count as 5 votes)
+
+    - can SAVE a BIB
+    - can CRUD BIBs
+    - can share a BIB with other users
+
+    - can update profile
+    EXTRA marks - upload of profile picture
+    - can make profile public / private (user name is always public for public NURLs)
+
+
+
+
+    <p>
+        -------
+        Use cases
+        role 'student'
+        -------
+
+        - can view / search REFs in collections
+        +/- own collections
+        +/- shared collections from other users
+        +/- all public NURLs
+
+        can search by:
+        - matching one or more tags
+        - free text content search
+        - by date range (created / last edit)
+
+        - can CRUD personal tags
+
+        - can CRUD own REFs and collections and tags
+
+        - up/down vote list of proposed new tags (registered users votes count as 5 votes)
+
+        - can SAVE a BIB
+        - can CRUD BIBs
+        - can share a BIB with other users
+
+        - can update profile
+        EXTRA marks - upload of profile picture
+        - can make profile public / private (user name is always public for public NURLs)
+    </p>
+    <p>
+        -------
+        Use cases
+        role 'lecturer'
+        -------
+        - all features of 'student'
+        - can publish a BIBS to be public, with a text title and text summary
+    </p>
+    <p>
+
+        -------
+        Use cases
+        role 'admin'
+        -------
+        - can CRUD student and lecturer and admin accounts
+    </p>
+
+
+
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body { background: #F5F5F5; font: 18px/1.5 sans-serif; }
+    h1, h2 { line-height: 1.2; margin: 0 0 .5em; }
+    h1 { font-size: 36px; }
+    h2 { font-size: 21px; margin-bottom: 1em; }
+    p { margin: 0 0 1em 0; }
+    a { color: #0000F0; }
+    a:hover { text-decoration: none; }
+    code { background: #F5F5F5; max-width: 100px; padding: 2px 6px; word-wrap: break-word; }
+    #wrapper { background: #FFF; margin: 1em auto; max-width: 800px; width: 95%; }
+    #container { padding: 2em; }
+    #welcome, #status { margin-bottom: 2em; }
+    #welcome h1 span { display: block; font-size: 75%; }
+    #icon-status, #icon-book { float: left; height: 64px; margin-right: 1em; margin-top: -4px; width: 64px; }
+    #icon-book { display: none; }
+
+    @media (min-width: 768px) {
+        #wrapper { width: 80%; margin: 2em auto; }
+        #icon-book { display: inline-block; }
+        #status a, #next a { display: block; }
+
+        @-webkit-keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+        @keyframes fade-in { 0% { opacity: 0; } 100% { opacity: 1; } }
+        .sf-toolbar { opacity: 0; -webkit-animation: fade-in 1s .2s forwards; animation: fade-in 1s .2s forwards;}
+    }
+</style>
+{% endblock %}

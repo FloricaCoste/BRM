@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Bibliographies list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Bibliography ID</th>
+                <th>User ID</th>
+                <th>Author</th>
+                <th>Year of pubblication</th>
+                <th>Title: </th>
+                <th>Chapter: </th>
+                <th>Editor: </th>
+                <th>Edition: </th>
+                <th>Place publication:</th>
+                <th>Publisher:</th>
+                <th>Book:</th>
+                <th>Actions: </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bibliography in bibliographies %}
+            <tr>
+                <td><a href="{{ path('bibliography_show', { 'id': bibliography.id }) }}">{{ bibliography.id }}</a></td>
+                <td>{{ bibliography.bibID }}</td>
+                <td>{{ bibliography.userID }}</td>
+                <td>{{ bibliography.author }}</td>
+                <td>{{ bibliography.yearPub }}</td>
+                <td>{{ bibliography.title }}</td>
+                <td>{{ bibliography.chapter }}</td>
+                <td>{{ bibliography.editor }}</td>
+                <td>{{ bibliography.edition }}</td>
+                <td>{{ bibliography.placePub }}</td>
+                <td>{{ bibliography.publisher }}</td>
+                <td>{% if bibliography.book %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('bibliography_show', { 'id': bibliography.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('bibliography_edit', { 'id': bibliography.id }) }}">edit</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('bibliography_basket_add', { 'id': bibliography.id }) }}">add to basket</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>            <a href="{{ path('bibliography_new') }}">Create a new bibliography</a>
+        </li>
+    </ul>
+{% endblock %}
