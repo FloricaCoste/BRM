@@ -3,24 +3,19 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use Symfony\Component\HttpFoundation\Request;
-
 use Symfony\Component\HttpFoundation\Session\Session;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
- * Class AdminController
- * @package AppBundle\Controller
- *
  * @Route("/admin")
  */
 class AdminController extends Controller
 {
     /**
-     * @Route("/", name="admin_index")
+     * @Route("/", name="admin_home")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function indexAction(Request $request)
     {
@@ -32,12 +27,22 @@ class AdminController extends Controller
         }
 
         // if get here, not logged in, empty flash bag and create flash login first message then redirect
-        $session->getFlashBag()->clear(); // avoids seeing message twice ...
+        $session->getFlashBag()->clear();
         $this->addFlash(
-            'error',
-            'please login before accessing admin'
+            'ERROR',
+            'Please login before accessing admin page.'
         );
-
         return $this->redirectToRoute('login');
     }
+
+    /**
+     * @Route("/codes", name="admin_codes")
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function codesAction(Request $request)
+    {
+        $template = 'admin/codes';
+        return $this->render($template . '.html.twig', []);
+    }
+
 }

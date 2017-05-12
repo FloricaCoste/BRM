@@ -5,7 +5,10 @@
 
     <table>
         <tbody>
-
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
             <tr>
                 <th>Username</th>
                 <td>{{ user.username }}</td>
@@ -19,16 +22,12 @@
                 <td>{{ user.eMail }}</td>
             </tr>
             <tr>
-                <th>Isactiv</th>
-                <td>{% if user.isActiv %}Yes{% else %}No{% endif %}</td>
+                <th>Isactive</th>
+                <td>{% if user.isActive %}Yes{% else %}No{% endif %}</td>
             </tr>
             <tr>
-                <th>Userid</th>
-                <td>{{ user.userID }}</td>
-            </tr>
-            <tr>
-                <th>Roleuser</th>
-                <td>{{ user.roleUser }}</td>
+                <th>Roles</th>
+                <td>{{ user.roles }}</td>
             </tr>
         </tbody>
     </table>

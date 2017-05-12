@@ -373,4 +373,3 @@ class bibliography
         return $this->book;
     }
 }
-

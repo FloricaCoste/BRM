@@ -3,11 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User
@@ -24,45 +25,39 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=64)
      */
     private $username;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255)
+     * @ORM\Column(name="password", type="string", length=64)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="e_mail", type="string", length=255)
+     * @ORM\Column(name="eMail", type="string", length=64)
      */
     private $eMail;
 
     /**
      * @var bool
      *
-     * @ORM\Column(name="isActiv", type="boolean")
+     * @ORM\Column(name="isActive", type="boolean")
      */
-    private $isActiv;
+    private $isActive;
+
 
     /**
-     * @var string
+     * @var \AppBundle\Entity\ROLE
      *
-     * @ORM\Column(name="userID", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="ROLE")
+     * @ORM\JoinColumn(name="ROLE_id", referencedColumnName="id")
      */
-    private $userID;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="roleUser", type="string", length=255)
-     */
-    private $roleUser;
-
+    private $ROLE;
 
     /**
      * Get id
@@ -101,13 +96,13 @@ class User
     /**
      * Set password
      *
-     * @param string $password
+     * @param string $encodePassword
      *
      * @return User
      */
-    public function setPassword($password)
+    public function setPassword($encodePassword)
     {
-        $this->password = $password;
+        $this->password = $encodePassword;
 
         return $this;
     }
@@ -147,127 +142,158 @@ class User
     }
 
     /**
-     * Set isActiv
+     * Set isActive
      *
-     * @param boolean $isActiv
+     * @param boolean $isActive
      *
      * @return User
      */
-    public function setIsActiv($isActiv)
+    public function setIsActive($isActive)
     {
-        $this->isActiv = $isActiv;
+        $this->isActive = $isActive;
 
         return $this;
     }
 
     /**
-     * Get isActiv
+     * Get isActive
      *
-     * @return bool
+     * @return boolean
      */
-    public function getIsActiv()
+    public function getIsActive()
     {
-        return $this->isActiv;
-    }
+        return $this->isActive = true;
 
-    /**
-     * Set userID
-     *
-     * @param string $userID
-     *
-     * @return User
-     */
-    public function setUserID($userID)
-    {
-        $this->userID = $userID;
-
-        return $this;
-    }
-
-    /**
-     * Get userID
-     *
-     * @return string
-     */
-    public function getUserID()
-    {
-        return $this->userID;
-    }
-
-    /**
-     * Set roleUser
-     *
-     * @param string $roleUser
-     *
-     * @return User
-     */
-    public function setRoleUser($roleUser)
-    {
-        $this->roleUser = $roleUser;
-
-        return $this;
-    }
-
-    /**
-     * Get roleUser
-     *
-     * @return string
-     */
-    public function getRoleUser()
-    {
-        return $this->roleUser;
     }
 
 
-    //add extra function
-    public function getSalt()
-    {
-    }
 
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
+//add extra function
+public function getSalt()
+{
+}
 
-    public function eraseCredentials()
-    {
-    }
+public function getRolesUser()
+{
+    return array(['ROLE_USER']);
+}
 
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
+public function eraseCredentials()
+{
+}
 
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
+public function isAccountNonExpired()
+{
+    return true;
+}
 
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
+public function isAccountNonLocked()
+{
+    return true;
+}
 
-    public function isEnabled()
-    {
-        return $this->isActiv;
-    }
+public function isCredentialsNonExpired()
+{
+    return true;
+}
 
-// serialize and unserialize must be updated - see below
-    public function serialize()
-    {
-        return serialize(array(
-            // ...
-            $this->isActiv
-        ));
-    }
-    public function unserialize($serialized)
-    {
-        list (
-            // ...
-            $this->isActiv
-            ) = unserialize($serialized);
-    }
+public function isEnabled()
+{
+
+    return $this->isActive;
 
 }
 
+// serialize and unserialize must be updated - see below
+
+/** @see \Serializable::serialize() */
+public function serialize()
+{
+    return serialize(array( $this->id,
+        $this->username,
+        $this->password,
+        // see section on salt below // $this->salt,
+    ));
+}
+
+/** @see \Serializable::unserialize() */
+public function unserialize($serialized)
+{
+    list ( $this->id,
+        $this->username,
+        $this->password,
+        ) = unserialize($serialized); }
+
+/**
+ * @ORM\Column(type="json_array")
+ */
+private $roles = [];
+
+
+public function getRoles()
+{
+    $roles = $this->roles;
+    return $roles;
+}
+
+/**
+ * Set roles
+ *
+ * @param array $roles
+ *
+ * @return User
+ */
+public function setRoles($roles = ['ROLE_USER'])
+{
+    $this->roles = $roles;
+    return $this;
+}
+
+private function createActiveUser($username, $plainPassword, $email, $roles = ['ROLE_USER']):user
+{
+    $users = new user();
+    $users->setUsername($username);
+    $encodedPassword = $this->encodePassword($users, $plainPassword);
+    $users->setPassword($encodedPassword);
+    $users->setEmail($email);
+    $users->setRoles($roles);
+    $users->setIsActive(true);
+    // password - and encoding
+
+    return $users;
+}
+
+private function encodePassword($users, $plainPassword):string
+{
+
+    $encoder = $this->container->get('security.password_encoder');
+    $encodedPassword = $encoder->encodePassword($users, $plainPassword);
+    return $encodedPassword;
+}
+
+
+
+    /**
+     * Set rOLE
+     *
+     * @param \AppBundle\Entity\ROLE $rOLE
+     *
+     * @return User
+     */
+    public function setROLE(\AppBundle\Entity\ROLE $rOLE = null)
+    {
+        $this->ROLE = $rOLE;
+
+        return $this;
+    }
+
+    /**
+     * Get rOLE
+     *
+     * @return \AppBundle\Entity\ROLE
+     */
+    public function getROLE()
+    {
+        return $this->ROLE;
+    }
+}

@@ -1,11 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% block pageTitle %}Student home page{% endblock %}
+
+{% block pageTitle %}Student - home page{% endblock %}
 
 {% block body %}
-    <h1>Welcome to Student home page</h1>
 
-    <p>
-        Welcome to the <strong>secure</strong> student home page
-    </p>
+    {% set user = app.session.get('user') %}
+    {% if user is null %}
+        <p>
+            ERROR - Please login:
+            <br>
+            Please <a href="{{ path('user_login') }}"> login</a> before attempting to access this page
+        </p>
+    {% else %}
+
+        <header>
+            You are logged in as: {{ user.username }}
+            <br>
+            <a href="{{ path('user_logout') }}">Logout</a>
+        </header>
+
+        <h1>Welcome to Student home page</h1>
+
+
+        <p>
+           A student is a person who is studying at a university or other place of higher education.
+
+        </p>
+
+    {% endif %}
 {% endblock %}

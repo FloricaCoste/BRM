@@ -156,4 +156,3 @@ class tag
         return $this->tagStatus;
     }
 }
-

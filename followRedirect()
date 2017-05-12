@@ -1,0 +1,13 @@
+
+[30;42m                                                                                                               [39;49m
+[30;42m [OK] Server running on http:////:8000                                                                         [39;49m
+[30;42m                                                                                                               [39;49m
+
+[39;49m // [39;49mQuit the server with CONTROL-C.                                                                            
+
+<br />
+<b>Warning</b>:  Unknown: php_network_getaddresses: getaddrinfo failed: No such host is known.  in <b>Unknown</b> on line <b>0</b><br />
+[37;41m                                                                                                               [39;49m
+[37;41m [ERROR] Built-in server terminated unexpectedly.                                                              [39;49m
+[37;41m                                                                                                               [39;49m
+

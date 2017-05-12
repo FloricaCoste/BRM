@@ -6,6 +6,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\bibliography;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Bibliography controller.
@@ -19,12 +21,8 @@ class BibliographyBasketController extends Controller
      */
     public function indexAction()
     {
-        // no need to put bibliographies array in Twig argument array - Twig can get data direct from session
-        $argsArray = [
-        ];
-
         $templateName = 'basket/index';
-        return $this->render($templateName . '.html.twig', $argsArray);
+        return $this->render($templateName . '.html.twig');
     }
 
 
@@ -99,4 +97,22 @@ class BibliographyBasketController extends Controller
         return $this->redirectToRoute('bibliography_basket_index');
     }
 
+    /**
+     * @Route("/pdf", name="bibliography_basket_pdf")
+     */
+    public function pdfAction()
+    {
+        $html = $this->renderView('/Demo/pdf.html.twig');
+
+        $filename = sprintf('test-%s.pdf', date('Y-m-d'));
+
+        return new Response(
+            $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
+            200,
+            [
+                'Content-Type'        => 'application/pdf',
+                'Content-Disposition' => sprintf('attachment; filename="%s"', $filename),
+            ]
+        );
+    }
 }

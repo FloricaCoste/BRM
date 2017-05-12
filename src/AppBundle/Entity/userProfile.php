@@ -311,4 +311,3 @@ class userProfile
         return $this->lastUpDate;
     }
 }
-

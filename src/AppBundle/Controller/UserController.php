@@ -2,15 +2,10 @@
 
 namespace AppBundle\Controller;
 
-
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Session;
-
-use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -27,22 +22,14 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-        $session = new Session();
-        if ($session->has('user')){
-            $templateName = '/admin/index';
-            return $this->render($templateName . '.html.twig', []);
-        }
+        $em = $this->getDoctrine()->getManager();
 
-        // if get here, not logged in,
-        // empty flash bag and create flash login first message then redirect
-        $session->getFlashBag()->clear(); // avoids seeing message twice ...
-        $this->addFlash(
-            'error',
-            'please login before accessing admin'
-        );
-        return $this->redirectToRoute('login');
+        $users = $em->getRepository('AppBundle:User')->findAll();
+
+        return $this->render('user/index.html.twig', array(
+            'users' => $users,
+        ));
     }
-
 
     /**
      * Creates a new user entity.
@@ -146,5 +133,4 @@ class UserController extends Controller
             ->getForm()
         ;
     }
-
 }

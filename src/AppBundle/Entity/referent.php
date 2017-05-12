@@ -156,4 +156,3 @@ class referent
         return $this->reader;
     }
 }
-

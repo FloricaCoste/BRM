@@ -12,7 +12,7 @@
 
     {% if user is null %}
         <p>
-            you are not logged in: <a href="{{ path('login') }}">Login: </a>
+            Please login: <a href="{{ path('login') }}">Login: </a>
         </p>
     {% else %}
         <header>
@@ -27,55 +27,116 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}BRM{% endblock %}</title>
         <style>
             /*@import "/../web/css/table.css";*/
+            .dropbtn {
+                background-color: peru;
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+                cursor: pointer;
+            }
+
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
+                text-decoration: none;
+                display: block;
+            }
+
+            .dropdown-content a:hover {background-color: #f1f1f1}
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown:hover .dropbtn {
+                background-color: burlywood;
+            }
+
+            body {
+                color: {{ colours['foreground'] }};
+                background-color: {{ colours['background'] }};
+            }
             tr, td {
-                border: 0.1rem solid blueviolet;
+                border: 0.1rem solid saddlebrown;
                 padding: 0.5rem;
             }
             table{
                 border: 0.1rem solid chocolate;
                 padding: 0.5rem;
             }
-            body {
-                color: {{ colours['foreground'] }};
-                background-color: {{ colours['background'] }};
-            }
-            header {
-                text-align: right;
-                padding: 0.5rem;
-                border-bottom: 0.1rem solid black;
-                background-color: darkgray;
-            }
             {% block stylesheets %}
             {% endblock %}
         </style>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
+
     <body>
 
 
     <ul>
 
-        <li>
-            <a href="{{ path('referent_index') }}">List of referents</a>
-        </li>
-        <li>
-            <a href="{{ path('bibliography_index') }}">List of Bibliography</a>
-        </li>
-        <li>
-            <a href="{{ path('tag_index') }}">List of referents</a>
-        </li>
-        <li>
-            <a href="{{ path('user_index') }}">List of users</a>
-        </li>
+        <div class="dropdown">
+            <button class="dropbtn">Bibliography</button>
+            <div class="dropdown-content">
+                <a href="{{ path('bibliography_index') }}">Bibliography</a>
+
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Reference</button>
+            <div class="dropdown-content">
+                <a href="{{ path('reference_index') }}">Reference</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Referent</button>
+            <div class="dropdown-content">
+                <a href="{{ path('referent_index') }}">Referent</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Tag</button>
+            <div class="dropdown-content">
+                <a href="{{ path('tag_index') }}">Tag</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Users</button>
+            <div class="dropdown-content">
+                <a href="{{ path('userprofile_index') }}">User details</a>
+                <a href="{{ path('role_index') }}">Role</a>
+                <a href="{{ path('user_index') }}">User</a>
+            </div>
+        </div>
     </ul>
-
     <hr>
-
 
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
+    <div id="footer">
+
+        <hr>
+        {% block footer %}
+            &copy; Copyright 2017 by Florica Coste</a>.
+        {% endblock %}
+    </div>
     </body>
 </html>

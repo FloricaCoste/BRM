@@ -57,16 +57,16 @@ class reference
     private $typeOfMedium;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="date_of_publication", type="datetimetz")
+     * @ORM\Column(name="date_of_publication", type="string", length=255)
      */
     private $dateOfPublication;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="date_of_citation", type="datetimetz")
+     * @ORM\Column(name="date_of_citation", type="string", length=255)
      */
     private $dateOfCitation;
 
@@ -466,4 +466,3 @@ class reference
         return $this->publicReference;
     }
 }
-
